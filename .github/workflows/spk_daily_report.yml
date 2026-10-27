@@ -1,0 +1,33 @@
+name: SPK daily report
+
+on:
+  schedule:
+    # GitHub uses UTC (WIB = UTC + 7).
+    # "0 9 * * *" = 09:00 UTC = 16:00 WIB, every day
+    - cron: "0 9 * * *"
+  workflow_dispatch:   # adds a "Run workflow" button for manual runs / tests
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install packages
+        run: pip install pandas sqlalchemy pymysql requests openpyxl
+
+      - name: Run report
+        run: python spk_bot.py report
+        env:
+          MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
+          MYSQL_PORT: ${{ secrets.MYSQL_PORT }}
+          MYSQL_USER: ${{ secrets.MYSQL_USER }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
