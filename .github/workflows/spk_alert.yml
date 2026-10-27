@@ -4,7 +4,7 @@ on:
   schedule:
     # GitHub uses UTC (WIB = UTC + 7).
     # "*/30 0-10 * * *" = every 30 minutes from 07:00 to 17:30 WIB, every day
-    - cron: "*/30 0-10 * * *"
+    - cron: "15,45 0-17 * * *"
   workflow_dispatch:   # adds a "Run workflow" button for manual runs / tests
     inputs:
       mode:
