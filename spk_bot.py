@@ -31,10 +31,27 @@ TELEGRAM_LIMIT = 3900           # Telegram allows max 4096 characters per messag
 # =====================================================================
 # 1. Settings
 # =====================================================================
+# ---------------------------------------------------------------------
+# FILL IN YOUR VALUES HERE. Keep the quotes, replace only the text inside.
+# WARNING: anyone who can read this file can read these passwords.
+# Keep your GitHub repository PRIVATE.
+# ---------------------------------------------------------------------
+CONFIG = {
+    "MYSQL_HOST": "103.185.52.24",
+    "MYSQL_PORT": "3306",
+    "MYSQL_USER": "dashcris",
+    "MYSQL_PASSWORD": "B3r80eBhzYgCFrD2",
+    "MYSQL_DATABASE": "rpt_dashboard",
+    "TELEGRAM_BOT_TOKEN": "8810102766:AAHzzJW6y7Y_6R5I9_3oKiI8IXTSdfFBf6Ur",
+    "TELEGRAM_CHAT_ID": "8810102766",
+}
+
+
 def setting(name, default=None):
-    value = os.environ.get(name, default)
-    if value is None or value == "":
-        sys.exit(f"Missing setting: {name}")
+    # Order: GitHub secret (if it exists) -> CONFIG above -> default
+    value = os.environ.get(name) or CONFIG.get(name) or default
+    if not value or str(value).startswith("PASTE_"):
+        sys.exit(f"Missing setting: {name} (fill it in the CONFIG block at the top of spk_bot.py)")
     return value
 
 
